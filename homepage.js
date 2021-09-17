@@ -18,10 +18,6 @@ const goodMorning = () => {
 
         const col = document.createElement("div");
         col.classList = "col-6, col-md-4 ,col-lg-3";
-        col.addEventListener("click" , () => {
-          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
-          console.log(body.data[i].album.id)
-        })
         col.innerHTML = `
                       <div class="card-top p-0 mb-2">
                         <div class="row no-gutters">
@@ -48,6 +44,10 @@ const goodMorning = () => {
                         </div>
                       </div>
           `;
+        col.addEventListener("click" , () => {
+          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+          console.log(body.data[i].album.id)
+        })
         row.appendChild(col);
       }
     })
