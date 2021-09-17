@@ -18,7 +18,10 @@ const goodMorning = () => {
 
         const col = document.createElement("div");
         col.classList = "col-6, col-md-4 ,col-lg-3";
-
+        col.addEventListener("click" , () => {
+          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+          console.log(body.data[i].album.id)
+        })
         col.innerHTML = `
                       <div class="card-top p-0 mb-2">
                         <div class="row no-gutters">
@@ -44,7 +47,7 @@ const goodMorning = () => {
                           </div>
                         </div>
                       </div>
-            `;
+          `;
         row.appendChild(col);
       }
     })
@@ -56,13 +59,15 @@ const recentlyPlayed = (idOfRow) => {
     .then((response) => response.json())
     .then((body) => {
       let row = document.getElementById(idOfRow);
-      console.log(row);
       for (let i = 0; i < body.data.length; i++) {
         let obj = body.data[i];
 
         const col = document.createElement("div");
         col.classList = "col-2";
-
+        col.addEventListener("click" , () => {
+          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+          console.log(body.data[i].album.id)
+        })
         col.innerHTML = `
                         <div class="card" style="margin-bottom:25px">
                             <img
@@ -95,7 +100,10 @@ const getArtist = () => {
         let obj = body.data[i];
         const col = document.createElement("div");
         col.classList = "col-6, col-md-4 ,col-lg-3";
-
+        col.addEventListener("click" , () => {
+          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+          console.log(body.data[i].album.id)
+        })
         col.innerHTML = `
                       <div class="card-top p-0 mb-2">
                         <div class="row no-gutters">
@@ -133,7 +141,10 @@ const getArtist = () => {
 
       const col = document.createElement("div");
       col.classList = "col-2";
-
+      col.addEventListener("click" , () => {
+        window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+        console.log(body.data[i].album.id)
+      })
       col.innerHTML = `
                     <div class="card" style="margin-bottom:25px">
                         <img
