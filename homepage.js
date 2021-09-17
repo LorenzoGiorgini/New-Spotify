@@ -1,5 +1,5 @@
 const fetched = () => {
-    return fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=album.id", {
+    return fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=eminem", {
         "method": "GET",
     })
 }
