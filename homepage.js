@@ -1,6 +1,6 @@
-const fetched = () => {
+const fetched = (artist = "album") => {
   return fetch(
-    "https://striveschool-api.herokuapp.com/api/deezer/search?q=album",
+    `https://striveschool-api.herokuapp.com/api/deezer/search?q=${artist}`,
     {
       method: "GET",
     }
@@ -45,8 +45,7 @@ const goodMorning = () => {
                       </div>
           `;
         col.addEventListener("click" , () => {
-          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
-          console.log(body.data[i].album.id)
+          window.location.assign(`/album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
         })
         row.appendChild(col);
       }
@@ -54,19 +53,18 @@ const goodMorning = () => {
     .catch((error) => console.log(error));
 };
 
-const recentlyPlayed = (idOfRow) => {
+const recentlyPlayed = () => {
   fetched()
     .then((response) => response.json())
     .then((body) => {
-      let row = document.getElementById(idOfRow);
-      for (let i = 0; i < body.data.length; i++) {
-        let obj = body.data[i];
+      let row = document.getElementById("recently-played");
+      body.data.forEach(element => {
+        let obj = element;
 
         const col = document.createElement("div");
         col.classList = "col-2";
         col.addEventListener("click" , () => {
-          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
-          console.log(body.data[i].album.id)
+          window.location.assign(`/album-page.html?id=` + obj.album.id + '&name=' + obj.artist.name)
         })
         col.innerHTML = `
                         <div class="card" style="margin-bottom:25px">
@@ -80,29 +78,28 @@ const recentlyPlayed = (idOfRow) => {
                         </div>
             `;
         row.appendChild(col);
-      }
+      });
     })
     .catch((error) => console.log(error));
 };
 
 
-const getArtist = () => {
+const getMorning = () => {
+  console.log("Morning")
   const query = document.querySelector("input[type=search]").value;
-  search(query)
+  fetched(query)
     .then((response) => response.json())
     .then((body) => {
       // DOM MANIPULATION
 
       let row = document.getElementById("good-mor");
       row.innerHTML = "";
-      console.log(body);
       for (let i = 0; i < 6; i++) {
         let obj = body.data[i];
         const col = document.createElement("div");
         col.classList = "col-6, col-md-4 ,col-lg-3";
         col.addEventListener("click" , () => {
-          window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
-          console.log(body.data[i].album.id)
+          window.location.assign(`/album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
         })
         col.innerHTML = `
                       <div class="card-top p-0 mb-2">
@@ -132,47 +129,48 @@ const getArtist = () => {
             `;
         row.appendChild(col);
       }
-
-    let recentplay = document.getElementById("recently-played");
-    recentplay.innerHTML = "";
-    console.log(row);
-    for (let i = 0; i < body.data.length; i++) {
-      let obj = body.data[i];
-
-      const col = document.createElement("div");
-      col.classList = "col-2";
-      col.addEventListener("click" , () => {
-        window.location.assign(`./album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
-        console.log(body.data[i].album.id)
-      })
-      col.innerHTML = `
-                    <div class="card" style="margin-bottom:25px">
-                        <img
-                          src="${obj.album.cover_medium}"
-                          class="card-img-top img-fluid"
-                        />
-                        <div class="card-body">
-                          <h5 class="card-title dotted">${obj.title}</h5>
-                        </div>
-                    </div>
-        `;
-      recentplay.appendChild(col);
-    }
   })
   .catch((error) => console.error(error));
 };
 
-const search = (artist) => {
-  return fetch(
-    "https://striveschool-api.herokuapp.com/api/deezer/search?q=" + artist,
-    {
-      method: "GET",
-    }
-  );
+
+const getRecently = () => {
+  console.log("Recently")
+  const query = document.querySelector("input[type=search]").value;
+  fetched(query)
+    .then((response) => response.json())
+    .then((body) => {
+      // DOM MANIPULATION
+
+      let row = document.getElementById("recently-played");
+      row.innerHTML = "";
+      for (let i = 0; i < body.data.length; i++) {
+        let obj = body.data[i];
+        const col = document.createElement("div");
+        col.classList = "col-2";
+        col.addEventListener("click" , () => {
+          window.location.assign(`/album-page.html?id=` + body.data[i].album.id + '&name=' + body.data[i].artist.name)
+        })
+        col.innerHTML = `
+        <div class="card" style="margin-bottom:25px">
+            <img
+              src="${obj.album.cover_medium}"
+              class="card-img-top img-fluid"
+            />
+            <div class="card-body">
+              <h5 class="card-title dotted">${obj.title}</h5>
+            </div>
+        </div>
+        `;
+        row.appendChild(col);
+      }
+  })
+  .catch((error) => console.error(error));
 };
+
+
 
 window.onload = () => {
   goodMorning();
-  recentlyPlayed("recently-played");
-  recentlyPlayed("shows-to");
+  recentlyPlayed();
 };
