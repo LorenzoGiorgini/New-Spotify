@@ -1,4 +1,5 @@
-const fetched = (artist = "album") => {
+const fetched = (artist) => {
+  console.log(artist)
   return fetch(
     `https://striveschool-api.herokuapp.com/api/deezer/search?q=${artist}`,
     {
@@ -7,7 +8,7 @@ const fetched = (artist = "album") => {
   );
 };
 
-const goodMorning = () => {
+/* const goodMorning = () => {
   fetched()
     .then((response) => response.json())
     .then((body) => {
@@ -81,12 +82,14 @@ const recentlyPlayed = () => {
       });
     })
     .catch((error) => console.log(error));
-};
+}; */
 
 
 const getMorning = () => {
-  console.log("Morning")
-  const query = document.querySelector("input[type=search]").value;
+  let query = document.querySelector("input[type=search]").value;
+  if (query === "") {
+    query = "queen"
+  }
   fetched(query)
     .then((response) => response.json())
     .then((body) => {
@@ -135,8 +138,10 @@ const getMorning = () => {
 
 
 const getRecently = () => {
-  console.log("Recently")
-  const query = document.querySelector("input[type=search]").value;
+  let query = document.querySelector("input[type=search]").value;
+  if (query === "") {
+    query = "queen"
+  }
   fetched(query)
     .then((response) => response.json())
     .then((body) => {
@@ -171,6 +176,6 @@ const getRecently = () => {
 
 
 window.onload = () => {
-  goodMorning();
-  recentlyPlayed();
+  getMorning();
+  getRecently();
 };
